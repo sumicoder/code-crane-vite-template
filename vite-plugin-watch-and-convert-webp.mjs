@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import { globSync } from 'glob';
 
-export default function vitePluginWatchAndConvertWebP() {
+export default function vitePluginWatchAndConvertWebP(mode = 'default', command = 'serve') {
     // オプション
     const config = {
         isOptimize: true, // 画像最適化を行うかどうか
@@ -18,7 +18,7 @@ export default function vitePluginWatchAndConvertWebP() {
     const IMAGE_PATTERN = '**/*.{png,jpg,jpeg,gif}';
 
     // ビルドモードに応じた出力先ディレクトリを取得
-    const getOutputDir = (mode) => {
+    const getOutputDir = () => {
         if (mode === 'wp') {
             return path.resolve(process.cwd(), 'wordpress/themes/WORDPRESS-THEME-NAME/assets/images');
         }
@@ -32,10 +32,10 @@ export default function vitePluginWatchAndConvertWebP() {
     };
 
     // 画像ファイルを検索する関数
-    const findImageFiles = () => {
-        if (!fs.existsSync(SRC_DIR)) return [];
+    const findImageFiles = (dir, pattern = IMAGE_PATTERN) => {
+        if (!fs.existsSync(dir)) return [];
 
-        return globSync(`${SRC_DIR}/${IMAGE_PATTERN}`, {
+        return globSync(`${dir}/${pattern}`, {
             ignore: ['**/*.webp'],
         }).filter((file) => !isCopyFile(file));
     };
@@ -65,10 +65,13 @@ export default function vitePluginWatchAndConvertWebP() {
         }
     };
 
-    // ビルド時に画像を圧縮・変換する関数
+    // 画像を圧縮する関数
     const compressAndConvertForBuild = async (filePath, outputDir) => {
         const ext = path.extname(filePath).toLowerCase();
         const baseName = path.basename(filePath, ext);
+        // 出力ディレクトリからの相対パスを取得
+        const relativePath = path.relative(outputDir, filePath);
+        const relativeDir = path.dirname(relativePath);
         const fileName = `${baseName}${ext}`;
 
         if (!/\.(png|jpg|jpeg|gif)$/i.test(ext)) return;
@@ -77,6 +80,12 @@ export default function vitePluginWatchAndConvertWebP() {
             // 出力先ディレクトリが存在しない場合は作成
             if (!fs.existsSync(outputDir)) {
                 fs.mkdirSync(outputDir, { recursive: true });
+            }
+
+            // サブディレクトリが必要な場合は作成
+            const subDir = path.join(outputDir, relativeDir);
+            if (relativeDir !== '.' && !fs.existsSync(subDir)) {
+                fs.mkdirSync(subDir, { recursive: true });
             }
 
             // 元画像のサイズを取得
@@ -98,20 +107,37 @@ export default function vitePluginWatchAndConvertWebP() {
                     return;
                 }
 
-                const destPath = path.join(outputDir, fileName);
+                // 一時ファイルに圧縮画像を保存（サブディレクトリ構造を維持）
+                const tempFileName = `${baseName}_temp${ext}`;
+                const tempPath = path.join(subDir, tempFileName);
 
                 return new Promise((resolve) => {
-                    sh.toFile(destPath, (err, info) => {
+                    sh.toFile(tempPath, (err, info) => {
                         if (err) {
-                            console.error(err);
+                            console.error('\u001b[1;31m 圧縮エラー:', err);
                             resolve(null);
                             return;
                         }
 
-                        // 圧縮結果を表示
-                        console.log(`\u001b[1;32m ${fileName}を${Math.round(((beforeImageSize - info.size) / beforeImageSize) * 100)}%圧縮しました。 ${(beforeImageSize / 1000).toFixed(2)}KB -> ${(info.size / 1000).toFixed(2)}KB`);
+                        // 元のファイルを削除して一時ファイルをリネーム
+                        const finalPath = path.join(subDir, fileName);
+                        try {
+                            if (fs.existsSync(finalPath)) {
+                                fs.unlinkSync(finalPath);
+                            }
+                            fs.renameSync(tempPath, finalPath);
 
-                        resolve({ original: destPath });
+                            resolve({ original: finalPath });
+
+                            // WebP変換も行う
+                            convertToWebP(finalPath, config.webpOptions);
+
+                            // 圧縮結果を表示
+                            console.log(`\u001b[1;32m ${path.join(relativeDir, fileName)}を${Math.round(((beforeImageSize - info.size) / beforeImageSize) * 100)}%圧縮しました。 ${(beforeImageSize / 1000).toFixed(2)}KB -> ${(info.size / 1000).toFixed(2)}KB`);
+                        } catch (renameErr) {
+                            console.error('\u001b[1;31m ファイル置換エラー:', renameErr);
+                            resolve(null);
+                        }
                     });
                 });
             }
@@ -124,7 +150,7 @@ export default function vitePluginWatchAndConvertWebP() {
     const processAllImagesBeforeServerStart = () => {
         if (!fs.existsSync(SRC_DIR)) return Promise.resolve();
 
-        const imageFiles = findImageFiles();
+        const imageFiles = findImageFiles(SRC_DIR);
 
         // 同期的に処理するため、Promiseで全ての処理の完了を待つ
         const allPromises = imageFiles.map((filePath) => {
@@ -158,13 +184,13 @@ export default function vitePluginWatchAndConvertWebP() {
     return {
         name: 'vite-plugin-watch-and-convert-webp',
         // 最も早いタイミングでWebP変換を実行
-        configResolved(config) {
+        configResolved() {
             // 開発モードの場合のみ事前変換を実行
-            if (config.command === 'serve') {
+            if (command === 'serve') {
                 return processAllImagesBeforeServerStart();
             }
         },
-        configureServer(server) {
+        configureServer() {
             if (!fs.existsSync(SRC_DIR)) return;
 
             // 監視開始
@@ -183,8 +209,11 @@ export default function vitePluginWatchAndConvertWebP() {
                 });
             });
         },
-        // ビルド前に実行する処理
-        buildStart({ mode }) {
+        // ビルド後に実行する処理
+        closeBundle() {
+            // ビルドモードの場合のみ実行
+            if (!command || command !== 'build') return;
+
             if (!fs.existsSync(SRC_DIR)) return;
 
             // ビルドモードに応じた出力先ディレクトリを取得
@@ -198,7 +227,11 @@ export default function vitePluginWatchAndConvertWebP() {
             console.log(`ビルドモード: ${mode || 'default'}, 出力先: ${outputDir}`);
 
             // ビルド時にはすべての画像を処理
-            const imageFiles = findImageFiles();
+            const imageFiles = findImageFiles(outputDir); // 出力ディレクトリ内のすべての画像ファイルを検索
+            if (imageFiles.length === 0) {
+                console.log('\u001b[1;33m 処理する画像ファイルが見つかりませんでした');
+                return;
+            }
 
             // ビルド時には圧縮と変換を両方実行
             Promise.all(imageFiles.map((filePath) => compressAndConvertForBuild(filePath, outputDir)))

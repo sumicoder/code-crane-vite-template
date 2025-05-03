@@ -37,7 +37,7 @@ const inputsForWordPress = {
     ...scssFiles,
 };
 
-export default defineConfig(({ mode }) => ({
+export default defineConfig(({ mode, command }) => ({
     root,
     base: './',
     server: {
@@ -68,6 +68,6 @@ export default defineConfig(({ mode }) => ({
             // ファイルの変更を検知
             ['wordpress/themes/**/*.php', 'src/**/*.html', 'src/scss/**/*.scss', 'src/public/assets/js/**/*.js']
         ),
-        vitePluginWatchAndConvertWebP(),
+        vitePluginWatchAndConvertWebP(mode, command),
     ].filter(Boolean),
 }));

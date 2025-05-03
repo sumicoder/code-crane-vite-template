@@ -1,0 +1,101 @@
+@charset "UTF-8";
+@use '../../foundation' as *;
+
+/* ===============================================
+# MARK: u-text
+=============================================== */
+// 細字
+.u-weight-light {
+    font-weight: 300 !important;
+}
+
+// 太字
+.u-weight-bold {
+    font-weight: 700 !important;
+}
+
+// 太字
+.u-weight-black {
+    font-weight: 900 !important;
+}
+
+// 大文字
+.u-text-uppercase {
+    text-transform: uppercase !important;
+}
+
+// 文字詰め
+/*
+カスタムプロパティとセットで使う
+例）`class="u-text-kerning" style="--_kerning:-0.3em;"`
+*/
+.u-text-kerning {
+    margin-inline-start: var(--_kerning) !important;
+}
+
+// accent color
+.u-text-accent-color {
+    color: var(--theme-accent) !important;
+}
+
+// en font
+.u-text-en-font {
+    font-family: var(--enFont) !important;
+    letter-spacing: 0.02em;
+}
+
+// accent font
+.u-text-accent-font {
+    font-family: var(--accentFont) !important;
+    letter-spacing: 0.05em;
+}
+
+// gradient
+.u-text-accent-gradient {
+    @include c-gradation-brown();
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    background-position: center;
+    color: transparent;
+}
+
+// マーカー
+.u-text-marker {
+    padding-inline: rm(4);
+    padding-block: rm(1) rm(2);
+    position: relative;
+    z-index: 0;
+    &::after {
+        content: '';
+        position: absolute;
+        z-index: -1;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: var(--theme-blue);
+        clip-path: inset(0% 100% 0% 0%); // to [top right bottom left]
+        transition: clip-path 0.4s 0.8s ease;
+    }
+    &[data-animation-status='play'] {
+        &::after {
+            clip-path: inset(0% 0% 0% 0%);
+        }
+    }
+}
+
+// marquee
+// インラインスタイルで style="--_inline-size:[文字数]ch;" を指定する
+.u-text-marquee {
+    display: block;
+    width: var(--_inline-size);
+    text-shadow: calc(var(--_inline-size) * 1) 0 currentColor, calc(var(--_inline-size) * 2) 0 currentColor, calc(var(--_inline-size) * 3) 0 currentColor, calc(var(--_inline-size) * 4) 0 currentColor, calc(var(--_inline-size) * 5) 0 currentColor;
+    animation: marquee 20s infinite linear;
+    pointer-events: none;
+    @keyframes marquee {
+        to {
+            transform: translateX(-100%);
+        }
+    }
+}

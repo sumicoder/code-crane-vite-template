@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About</title>
+    <link rel="stylesheet" href="/scss/style.scss" />
+    <script src="/assets/js/common.js" defer></script>
+    <script src="/assets/js/script.js" defer></script>
+    <script src="/assets/js/about.js" defer></script>
+</head>
+
+<body>
+    <h1>about</h1>
+    <a href="/">topへ</a>
+    <p>背景画像</p>
+    <div class="bg"></div>
+    <p>静的画像</p>
+    <img src="/assets/images/static.png" alt="" width="300" height="300" />
+    <p>JSで画像</p>
+    <canvas width="300" height="300" id="canvas"></canvas>
+    <p>下層ディレクトリ画像</p>
+    <div>
+        <picture>
+            <source srcset="/assets/images/about/static.webp" width="300" height="300" type="image/webp">
+            <img src="/assets/images/about/static.png" alt="" width="300" height="300" />
+        </picture>
+    </div>
+</body>
+
+</html>

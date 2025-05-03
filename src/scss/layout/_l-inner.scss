@@ -1,0 +1,27 @@
+@charset "UTF-8";
+@use '../foundation' as *;
+
+/* ===============================================
+# MARK: l-inner
+=============================================== */
+.l-inner {
+    margin-inline: auto;
+    width: 100%;
+    padding-inline: var(--padding-sp);
+    @media screen and (max-width: 389px) {
+        padding-inline: 10px;
+    }
+    @include mq(md) {
+        max-width: calc(var(--inner) + var(--padding-pc) * 2);
+        padding-inline: var(--padding-pc);
+    }
+}
+
+/* modifier */
+.l-inner {
+    @include mq(md) {
+        &[data-inner-size='small'] {
+            max-width: calc(976px + var(--padding-pc) * 2);
+        }
+    }
+}

@@ -68,11 +68,6 @@ export default defineConfig(({ mode }) => ({
             // ファイルの変更を検知
             ['wordpress/themes/**/*.php', 'src/**/*.html', 'src/scss/**/*.scss', 'src/public/assets/js/**/*.js']
         ),
-        vitePluginWatchAndConvertWebP({
-            isOptimize: true,
-            jpgOptions: { quality: 90 },
-            pngOptions: { quality: 90 },
-            gifOptions: { quality: 90 }
-          }),
+        vitePluginWatchAndConvertWebP(),
     ].filter(Boolean),
 }));

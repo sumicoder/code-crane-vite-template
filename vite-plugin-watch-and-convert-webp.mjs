@@ -3,18 +3,15 @@ import fs from 'fs';
 import path from 'path';
 import { globSync } from 'glob';
 
-export default function vitePluginWatchAndConvertWebP(options = {}) {
-    // デフォルトオプション
-    const defaultOptions = {
+export default function vitePluginWatchAndConvertWebP() {
+    // オプション
+    const config = {
         isOptimize: true, // 画像最適化を行うかどうか
         jpgOptions: { quality: 80 },
         pngOptions: { quality: 80 },
         gifOptions: { quality: 80 },
         webpOptions: { quality: 80 },
     };
-
-    // オプションをマージ
-    const config = { ...defaultOptions, ...options };
 
     // 共通の定数
     const SRC_DIR = path.resolve(process.cwd(), 'src/public/assets/images');
@@ -44,7 +41,7 @@ export default function vitePluginWatchAndConvertWebP(options = {}) {
     };
 
     // WebP変換を行う関数（基本ロジック）
-    const convertToWebP = async (filePath, options = { quality: 90 }, outputDir = null) => {
+    const convertToWebP = async (filePath, options = config.webpOptions, outputDir = null) => {
         const ext = path.extname(filePath).toLowerCase();
         const baseName = path.basename(filePath, ext);
         const dirName = outputDir || path.dirname(filePath);
@@ -64,7 +61,7 @@ export default function vitePluginWatchAndConvertWebP(options = {}) {
                 return await sharp(filePath).webp(options).toFile(webpPath);
             }
         } catch (err) {
-            console.error('WebP変換エラー:', err);
+            console.error('\u001b[1;31m WebP変換エラー:', err);
         }
     };
 
@@ -119,7 +116,7 @@ export default function vitePluginWatchAndConvertWebP(options = {}) {
                 });
             }
         } catch (err) {
-            console.error('画像圧縮エラー:', err);
+            console.error('\u001b[1;31m 画像圧縮エラー:', err);
         }
     };
 
@@ -139,7 +136,7 @@ export default function vitePluginWatchAndConvertWebP(options = {}) {
         });
 
         // すべての変換が終わるまで待機
-        return Promise.all(allPromises).then(() => console.log('すべての画像のWebP変換が完了しました'));
+        return Promise.all(allPromises).then(() => console.log('\u001b[1;34m すべての画像のWebP変換が完了しました'));
     };
 
     // 監視対象のディレクトリをすべて取得
@@ -207,9 +204,9 @@ export default function vitePluginWatchAndConvertWebP(options = {}) {
             Promise.all(imageFiles.map((filePath) => compressAndConvertForBuild(filePath, outputDir)))
                 .then((results) => {
                     const successCount = results.filter(Boolean).length;
-                    console.log(`すべての画像処理が完了しました (${successCount}/${imageFiles.length})`);
+                    console.log(`\u001b[1;34m すべての画像処理が完了しました (${successCount}/${imageFiles.length})`);
                 })
-                .catch((err) => console.error('画像処理中にエラーが発生しました:', err));
+                .catch((err) => console.error('\u001b[1;31m 画像処理中にエラーが発生しました:', err));
         },
     };
 }

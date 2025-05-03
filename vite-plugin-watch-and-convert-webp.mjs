@@ -189,6 +189,9 @@ export default function vitePluginWatchAndConvertWebP(mode = 'default', command 
             if (command === 'serve') {
                 return processAllImagesBeforeServerStart();
             }
+            if (command === 'build') {
+                console.time('\u001b[1;35m ビルドにかかった時間');
+            }
         },
         configureServer() {
             if (!fs.existsSync(SRC_DIR)) return;
@@ -238,6 +241,7 @@ export default function vitePluginWatchAndConvertWebP(mode = 'default', command 
                 .then((results) => {
                     const successCount = results.filter(Boolean).length;
                     console.log(`\u001b[1;34m すべての画像処理が完了しました (${successCount}/${imageFiles.length})`);
+                    console.timeEnd('\u001b[1;35m ビルドにかかった時間');
                 })
                 .catch((err) => console.error('\u001b[1;31m 画像処理中にエラーが発生しました:', err));
         },

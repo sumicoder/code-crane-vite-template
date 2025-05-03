@@ -1,0 +1,13 @@
+@charset "UTF-8";
+@use '../foundation' as *;
+
+/* ===============================================
+# MARK: l-header
+=============================================== */
+.l-header {
+}
+.l-header__logoLink {
+    display: block;
+    width: 200px;
+    height: auto;
+}

@@ -1,0 +1,31 @@
+{
+    "name": "code-crane-vite-template",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "scripts": {
+        "dev": "vite --host",
+        "build": "rm -rf dist && vite build",
+        "build-for-wp": "rm -rf dist && vite build --mode wp",
+        "preview": "vite preview",
+        "wp-env": "wp-env",
+        "start": "wp-env start",
+        "stop": "wp-env stop",
+        "update": "wp-env start --update",
+        "export": "wp-env run cli wp db export sql/wpenv.sql",
+        "import": "wp-env run cli wp db import sql/wpenv.sql",
+        "destroy": "wp-env destroy",
+        "env:init": "wp-env start && wp-env run cli wp theme activate WORDPRESS-THEME-NAME && wp-env run cli wp theme delete --all && wp-env run cli wp option update timezone_string 'Asia/Tokyo' && wp-env run cli wp option update posts_per_page 1 && wp-env run cli wp option update permalink_structure /%postname%/ && wp-env run cli wp option update blog_public 0"
+    },
+    "devDependencies": {
+        "@wordpress/env": "^10.22.0",
+        "glob": "10.3.10",
+        "sass": "1.70.0"
+    },
+    "dependencies": {
+        "dotenv": "^16.4.7",
+        "sharp": "^0.34.1",
+        "vite": "^6.3.4",
+        "vite-plugin-full-reload": "^1.2.0"
+    }
+}

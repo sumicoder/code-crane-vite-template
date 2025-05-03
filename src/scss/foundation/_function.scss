@@ -1,0 +1,43 @@
+@charset "UTF-8";
+@use "./variable" as *;
+@use "sass:math";
+@use "sass:meta";
+
+//============================
+// 数値のみを取り出す
+//============================
+// 参照：https://css-tricks.com/snippets/sass/strip-unit-function/
+@function strip-unit($number) {
+    @if  meta.type-of($number) == "number" and not math.is-unitless($number) {
+        @return math.div($number, $number * 0 + 1);
+    }
+    @return $number;
+}
+
+// ================================================
+// vwへ変換
+// ================================================
+@function vw($size, $window_width) {
+    @return math.div($size, $window_width) * 100vw;
+}
+
+// ================================================
+// remへ変換
+// ================================================
+// pxをremに変換
+@function rm($px, $basepx: strip-unit(16px)) {
+    @return math.div($px, $basepx) * 1rem;
+}
+
+//=================================================
+// pxをvwに変換する
+//=================================================
+// @param $px ピクセル値
+// @param $design-width デザイン幅（アートボード幅）
+// @return pxをvwに変換した値
+// ---------------------------
+
+// アートボード幅（カンプの最大幅で設定）
+@function toVw($px, $design-width: $artboard) {
+    @return calc(100 / $design-width) * $px * 1vw;
+}

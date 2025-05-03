@@ -1,0 +1,19 @@
+@charset "UTF-8";
+@use '../../foundation' as *;
+
+/* ===============================================
+# MARK: c-text
+=============================================== */
+// $font_size_min: 7;
+// $font_size_max: 25;
+
+// @for $font_size_sp from $font_size_min through $font_size_max {
+// 	@for $font_size_pc from $font_size_min through $font_size_max {
+// 		.c-text__sp#{$font_size_sp}pc#{$font_size_pc} {
+// 			font-size: rm($font_size_sp);
+// 			@include mq(md) {
+// 				font-size: rm($font_size_pc);
+// 			}
+// 		}
+// 	}
+// }

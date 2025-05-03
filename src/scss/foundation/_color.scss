@@ -1,0 +1,27 @@
+@charset "UTF-8";
+
+//============================
+// 色に関する設定
+//============================
+:root {
+    --theme-black: #0d1a33;
+    --theme-brown: #3c2d20;
+    --theme-beige: #fdfdfd;
+    --theme-white: #fff;
+    --theme-gray: #cfd3de;
+    --theme-yellow: #ffe943;
+    --theme-red: #ef3424;
+    --theme-blue: #0f6af3;
+
+    --theme-base: #fdfdfd;
+    --theme-main-text: var(--theme-black);
+    --theme-sub-text: var(--theme-gray);
+    --theme-white-text: var(--theme-white);
+    --theme-main: var(--theme-blue);
+    --theme-accent: var(--theme-brown);
+
+    --theme-border: #dedede;
+    --theme-border-gray: #c2c2c2;
+    --theme-border-brown: #694427;
+    --theme-icon: #cfd3de;
+}

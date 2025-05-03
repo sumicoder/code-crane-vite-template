@@ -1,0 +1,23 @@
+@charset "UTF-8";
+
+@font-face {
+    font-family: 'ShipporiMincho';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: local('ShipporiMincho-Medium'), url(/assets/fonts/ShipporiMincho-Medium.woff2) format('woff2');
+}
+
+@font-face {
+    font-family: 'ShipporiMincho';
+    font-style: normal;
+    font-weight: 800;
+    font-display: swap;
+    src: local('ShipporiMincho-ExtraBold'), url(/assets/fonts/ShipporiMincho-ExtraBold.woff2) format('woff2');
+}
+
+:root {
+    --baseFont: 'Noto Sans JP', sans-serif;
+    --enText: 'Roboto Serif', serif;
+    --accentFont: 'Shippori Mincho', serif;
+}

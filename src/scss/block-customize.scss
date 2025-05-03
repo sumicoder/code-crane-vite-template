@@ -1,0 +1,421 @@
+@charset "UTF-8";
+@use './foundation/color' as *;
+@use './foundation/function' as *;
+@use './foundation/mixin' as *;
+@use './foundation/mq' as *;
+@use './foundation/variable' as *;
+
+/* ===============================================
+# MARK: block customize
+=============================================== */
+.wp-block-contents-wrapper {
+    //     h2.wp-block-heading {
+    //         margin-block-end: rm(-12);
+    //         @include mq(md) {
+    //             margin-block-end: rm(-12);
+    //         }
+    //     }
+    //     h3.wp-block-heading {
+    //         margin-block-end: rm(-12);
+    //         @include mq(md) {
+    //             margin-block-end: rm(-12);
+    //         }
+    //     }
+    //     h4.wp-block-heading {
+    //         margin-block-end: rm(-12);
+    //         @include mq(md) {
+    //             margin-block-end: rm(-12);
+    //         }
+    //     }
+    //     h5.wp-block-heading {
+    //         margin-block-end: rm(-12);
+    //         @include mq(md) {
+    //             margin-block-end: rm(-12);
+    //         }
+    //     }
+    //     h6.wp-block-heading {
+    //         margin-block-end: rm(-12);
+    //         @include mq(md) {
+    //             margin-block-end: rm(-12);
+    //         }
+    //     }
+}
+.editor-styles-wrapper, // 投稿編集画面
+.wp-block-contents-wrapper {
+    & > * + * {
+        margin-block-start: rm(24);
+        @include mq(md) {
+            margin-block-start: rm(24);
+        }
+    }
+    // # MARK: ↓見出し系
+    h1.wp-block-heading {
+        font-size: rm(22);
+        font-weight: 700;
+        @include mq(md) {
+            font-size: rm(24);
+        }
+    }
+    h2.wp-block-heading {
+        font-size: rm(20);
+        font-weight: 700;
+        padding-block: rm(12);
+        padding-inline: rm(12);
+        background: #efefef;
+        @include mq(md) {
+            font-size: rm(22);
+        }
+    }
+    h3.wp-block-heading {
+        font-size: rm(19);
+        font-weight: 700;
+        position: relative;
+        z-index: 0;
+        &::after {
+            content: '';
+            position: absolute;
+            display: block;
+            width: 100%;
+            height: rm(2);
+            border-radius: rm(2);
+            bottom: 0;
+            left: 0;
+            background-color: #efefef;
+        }
+    }
+    h4.wp-block-heading {
+        font-size: rm(18);
+        font-weight: 700;
+        line-height: calc(31 / 18);
+        position: relative;
+        z-index: 0;
+        padding-left: 0.5em;
+        &::before {
+            content: '';
+            position: absolute;
+            display: block;
+            width: rm(2);
+            height: 100%;
+            border-radius: rm(2);
+            top: 0;
+            left: 0;
+            background-color: currentColor;
+        }
+    }
+    h5.wp-block-heading {
+        font-size: rm(16);
+        line-height: calc(27 / 16);
+        font-weight: 700;
+        &::before {
+            content: '';
+            display: inline-block;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-right: 0.55em solid transparent;
+            border-left: 0.55em solid transparent;
+            border-top: 0.8em solid currentColor;
+            border-bottom: 0;
+            margin-right: 0.2em;
+        }
+    }
+    h6.wp-block-heading {
+        font-size: rm(15);
+        line-height: calc(26 / 15);
+        font-weight: 700;
+        @include mq(md) {
+            font-size: rm(16);
+        }
+    }
+    // # MARK: ↓HTML 要素タグテスト
+    // # MARK: anchor
+    a {
+        color: #0000ff;
+        text-decoration-line: underline;
+        text-decoration-color: currentColor;
+        text-decoration-thickness: 1px;
+        text-underline-offset: 2px;
+        text-decoration-skip-ink: none;
+        transition: opacity 0.3s ease;
+        @include mq(md) {
+        }
+    	/* hover */
+		@media (any-hover: hover) {
+			&:hover {
+				opacity: 0.7;
+			}
+		}
+    }
+    // # MARK: 段落
+    p {
+        @include mq(md) {
+        }
+    }
+    // # MARK: ボタン
+    div.wp-block-button {
+        width: fit-content;
+        position: relative;
+        z-index: 0;
+        .wp-element-button {
+            color: #333;
+            text-decoration: none;
+            font-size: rm(14);
+            min-width: rm(200);
+            border-radius: 100vmax;
+            border: rm(1) solid #333;
+            background-color: #fff;
+            padding-block: rm(10);
+            padding-inline: rm(12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: rm(12);
+            transition: color 0.3s ease, background-color 0.3s ease;
+            /* hover */
+            @media (any-hover: hover) {
+                &:hover {
+                    opacity: 1;
+                    color: #fff;
+                    background-color: #333;
+                }
+            }
+        }
+    }
+    // # MARK: 詳細
+    details.wp-block-details {
+        padding-block: rm(20);
+        padding-inline: rm(20);
+        border: 1px solid #333;
+        summary {
+        }
+        &[open] summary {
+            padding-block-end: rm(20);
+        }
+    }
+    // # MARK: 引用
+    blockquote.wp-block-quote {
+        padding-block: rm(12);
+        padding-inline: rm(16);
+        font-size: rm(14);
+        background-color: #fff;
+        border: rm(1) solid #dedede;
+        @include mq(md) {
+            padding-block: rm(20);
+            padding-inline: rm(20);
+        }
+    }
+    // # MARK: 区切り線
+    hr.wp-block-separator {
+        height: 1px;
+        border: rm(1) solid #dedede;
+        opacity: 1;
+    }
+    // # MARK: ↓テーブル
+    figure.wp-block-table table{
+        font-size: rm(14);
+        width: 100%;
+        table-layout: auto;
+        thead {
+            border: solid #ababab;
+            border-width: 0 0 rm(1) 0;
+            th,
+            td {
+                border-width: 0 0 0 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+        tbody {
+            th,
+            td {
+                border: solid #dedede;
+                border-width: rm(1) 0 0 0;
+            }
+        }
+        tr {
+            display: flex;
+        }
+        th {
+            padding-block: rm(12);
+            font-weight: 500;
+        }
+        td {
+            padding-block: rm(12);
+        }
+        th:first-child,
+        td:first-child {
+            width: rm(200);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        th:not(:first-child),
+        td:not(:first-child) {
+            min-width: rm(200);
+            width: 100%;
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+        @include mq(md) {
+            font-size: rm(15);
+            th,
+            td {
+                padding-block: rm(20);
+            }
+            th:not(:first-child),
+            td:not(:first-child) {
+                min-width: rm(400);
+            }
+        }
+    }
+    // 固定レイアウト
+    table.has-fixed-layout {
+        table-layout: fixed;
+        th:first-child,
+        td:first-child,
+        th:not(:first-child),
+        td:not(:first-child) {
+            flex: 1;
+            width: auto;
+            min-width: unset;
+        }
+    }
+    // simplebar使用する場合
+    figure.wp-block-table table{
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+        &::-webkit-scrollbar {
+            display: none;
+        }
+        // CSS
+        .simplebar-content {
+            height: 100%;
+        }
+        .simplebar-track.simplebar-horizontal,
+        .simplebar-track.simplebar-vertical {
+            height: rm(4);
+            // width: rm(8);
+            background: transparent;
+            border-radius: 100vmax;
+            margin: 0 auto;
+            right: 0;
+            left: 0;
+            bottom: 0;
+        }
+        .simplebar-scrollbar {
+            height: rm(4);
+            background: #333;
+            border-radius: 100vmax;
+            bottom: 0;
+            &::before {
+                content: '';
+                display: none;
+            }
+        }
+    }
+    // # MARK: ↓非順序リスト (ネスト化)
+    ul.wp-block-list {
+        list-style: none;
+        padding: 0;
+        font-size: rm(14);
+        li {
+            padding-left: 1em;
+            position: relative;
+            z-index: 0;
+            &::before {
+                content: '・';
+                position: absolute;
+                display: inline-block;
+                top: 0;
+                left: 0;
+                color: #333;
+            }
+        }
+        @include mq(md) {
+            font-size: rm(15);
+        }
+    }
+    // # MARK: ↓順序リスト (ネスト化)
+    ol.wp-block-list {
+        list-style: none;
+        padding: 0;
+        font-size: rm(14);
+        counter-reset: Num 0;
+        li {
+            counter-increment: Num 1;
+            &::before {
+                content: counters(Num, '-') '.';
+                color: #333;
+                position: static;
+                margin-right: 0.5em;
+            }
+            ol,
+            ul {
+                counter-reset: Num 0;
+                li {
+                    padding-left: 1em;
+                    counter-increment: Num 1;
+                    &::before {
+                        content: counters(Num, '-');
+                    }
+                }
+            }
+        }
+        @include mq(md) {
+            font-size: rm(15);
+        }
+    }
+    // # MARK: ↓メディアとテキスト
+    div.wp-block-media-text {
+        grid-template-columns: 1fr;
+        gap: rm(24);
+        @include mq(md) {
+            grid-template-columns: 50% 1fr;
+            gap: rm(64);
+        }
+    }
+    figure.wp-block-media-text__media {
+        grid-row: unset;
+        grid-column: unset;
+    }
+    div.wp-block-media-text__content {
+        grid-row: unset;
+        grid-column: unset;
+        padding: 0;
+        p + p {
+            margin-block-start: 1em;
+        }
+    }
+    // # MARK: ↓2カラム
+    div.wp-block-columns {
+    }
+    // # MARK: ↓グループブロック
+    div.wp-block-group {
+        padding-block: rm(12);
+        padding-inline: rm(16);
+        font-size: rm(14);
+        background-color: #eee;
+        border-radius: rm(12);
+        @include mq(md) {
+            font-size: rm(15);
+            padding-block: rm(20);
+            padding-inline: rm(20);
+        }
+    }
+    div.wp-block-group__inner-container {
+        & > * + * {
+            margin-block-start: rm(16);
+            @include mq(md) {
+                margin-block-start: rm(24);
+            }
+        }
+    }
+    // # MARK: ↓embed
+    figure.wp-block-embed {
+        display: grid;
+        place-items: center;
+    }
+}

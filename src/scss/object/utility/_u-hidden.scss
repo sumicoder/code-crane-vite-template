@@ -1,0 +1,146 @@
+@charset "UTF-8";
+@use '../../foundation' as *;
+
+// ================================================================
+// 汎用クラス
+// ================================================================
+// Tabletも非表示
+.u-only-laptop {
+    display: none !important;
+    @include mq(lg) {
+        display: inline-block !important; // インライン要素
+    }
+}
+.u-only-laptop-block {
+    display: none !important;
+    @include mq(lg) {
+        display: block !important; // ブロック要素
+    }
+}
+.u-only-laptop-grid {
+    display: none !important;
+    @include mq(lg) {
+        display: grid !important; // グリッド要素
+    }
+}
+.u-only-laptop-flex {
+    display: none !important;
+    @include mq(lg) {
+        display: flex !important; // フレックス要素
+    }
+}
+
+// PCだけ表示
+.u-only-pc {
+    display: none !important;
+    @include mq(md) {
+        display: inline-block !important; // インライン要素
+    }
+}
+.u-only-pc-block {
+    display: none !important;
+    @include mq(md) {
+        display: block !important; // ブロック要素
+    }
+}
+.u-only-pc-grid {
+    display: none !important;
+    @include mq(md) {
+        display: grid !important; // グリッド要素
+    }
+}
+.u-only-pc-flex {
+    display: none !important;
+    @include mq(md) {
+        display: flex !important; // フレックス要素
+    }
+}
+
+// SPだけ表示
+.u-only-mobile {
+    display: inline-block !important; // インライン要素
+    @include mq(md) {
+        display: none !important;
+    }
+}
+.u-only-mobile-block {
+    display: block !important; // ブロック要素
+    @include mq(md) {
+        display: none !important;
+    }
+}
+.u-only-mobile-grid {
+    display: grid !important; // グリッド要素
+    @include mq(md) {
+        display: none !important;
+    }
+}
+.u-only-mobile-flex {
+    display: flex !important; // フレックス要素
+    @include mq(md) {
+        display: none !important;
+    }
+}
+
+// タブレットまで表示
+.u-only-tablet-mobile {
+    display: inline-block !important; // インライン要素
+    @include mq(lg) {
+        display: none !important;
+    }
+}
+.u-only-tablet-mobile-block {
+    display: block !important; // ブロック要素
+    @include mq(lg) {
+        display: none !important;
+    }
+}
+.u-only-tablet-mobile-grid {
+    display: grid !important; // グリッド要素
+    @include mq(lg) {
+        display: none !important;
+    }
+}
+.u-only-tablet-mobile-flex {
+    display: flex !important; // フレックス要素
+    @include mq(lg) {
+        display: none !important;
+    }
+}
+
+// 非表示
+.u-hidden {
+    display: none !important;
+    position: absolute !important;
+    width: 0 !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    outline: none !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+}
+
+// 表示
+.u-visible {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+// 読み上げのみ
+.u-alternative {
+    &:where(:lang(ja)) {
+        position: fixed !important;
+        inset-block-start: 0 !important;
+        inset-inline-start: 0 !important;
+        display: block !important;
+        inline-size: 4px !important;
+        block-size: 4px !important;
+        contain: strict !important;
+        pointer-events: none !important;
+        opacity: 0 !important;
+    }
+}

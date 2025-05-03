@@ -1,0 +1,106 @@
+@charset "UTF-8";
+@use '../../foundation' as *;
+
+/* ===============================================
+# MARK: c-breadcrumb
+=============================================== */
+.c-breadcrumb {
+}
+
+.c-breadcrumb__inner {
+}
+
+.c-breadcrumb__list {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+
+.c-breadcrumb__item {
+    display: flex;
+    gap: 4px;
+    &:not(:first-of-type) {
+        &::before {
+            content: '';
+            display: block;
+            width: 6px;
+            height: 1px;
+            margin-block-start: 6px;
+            background-color: var(--theme-gray);
+        }
+    }
+}
+
+.c-breadcrumb__link {
+    display: block;
+    font-size: 12px;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    text-align: justify;
+    color: var(--theme-white);
+    transition: color var(--hover-transition);
+}
+
+/* modifier */
+.c-breadcrumb {
+    &[data-color='dark'] {
+        .c-breadcrumb__link {
+            color: var(--theme-gray);
+        }
+        .c-breadcrumb__item {
+            &:not(:first-of-type) {
+                &::before {
+                    background-color: var(--theme-gray);
+                }
+            }
+            &[data-link='false'] {
+                .c-breadcrumb__link {
+                    color: var(--theme-blue);
+                }
+            }
+        }
+    }
+}
+.c-breadcrumb__item {
+    &[data-link='false'] {
+        .c-breadcrumb__link {
+            color: var(--theme-blue);
+        }
+    }
+    &:has(span[aria-hidden='true'][translate='no']) {
+        transform: translateY(-0.25em);
+        &:not(:first-of-type) {
+            &::before {
+                margin-block-start: 14px;
+            }
+        }
+    }
+}
+
+/* hover */
+@media (any-hover: hover) {
+    .c-breadcrumb__item {
+        &[data-link='true'] {
+            .c-breadcrumb__link {
+                &:hover {
+                    color: var(--theme-blue);
+                }
+            }
+        }
+    }
+    .c-breadcrumb {
+        &[data-color='light'] {
+            .c-breadcrumb__item {
+                &[data-link='true'] {
+                    .c-breadcrumb__link {
+                        &:hover {
+                            color: var(--theme-gray);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

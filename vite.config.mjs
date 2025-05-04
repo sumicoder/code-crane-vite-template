@@ -40,6 +40,7 @@ const inputsForWordPress = {
 export default defineConfig(({ mode, command }) => ({
     root,
     base: './',
+    publicDir: resolve(__dirname, 'public'),
     server: {
         port: 5173,
         origin: mode == 'wp' ? undefined : 'http://localhost:5173',
@@ -66,7 +67,7 @@ export default defineConfig(({ mode, command }) => ({
     plugins: [
         FullReload(
             // ファイルの変更を検知
-            ['wordpress/themes/**/*.php', 'src/**/*.html', 'src/scss/**/*.scss', 'src/public/assets/js/**/*.js']
+            ['wordpress/themes/**/*.php', 'src/**/*.html', 'src/scss/**/*.scss', 'public/assets/js/**/*.js']
         ),
         vitePluginWatchAndConvertWebP(mode, command),
     ].filter(Boolean),

@@ -14,7 +14,7 @@ export default function vitePluginWatchAndConvertWebP(mode = 'default', command 
     };
 
     // 共通の定数
-    const SRC_DIR = path.resolve(process.cwd(), 'src/public/assets/images');
+    const SRC_DIR = path.resolve(process.cwd(), 'public/assets/images');
     const IMAGE_PATTERN = '**/*.{png,jpg,jpeg,gif}';
 
     // ビルドモードに応じた出力先ディレクトリを取得

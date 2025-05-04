@@ -7,7 +7,7 @@
         "WP_DEBUG": true
     },
     "mappings": {
-        "wp-content/themes/WORDPRESS-THEME-NAME/": "./wordpress/themes/WORDPRESS-THEME-NAME/",
+        "wp-content/themes/wp-env-theme/": "./wordpress/themes/wp-env-theme/",
         "wp-content/plugins/": "./wordpress/plugins/",
         "wp-content/uploads/": "./wordpress/uploads/",
         "sql": "./sql/",

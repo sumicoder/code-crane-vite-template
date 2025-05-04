@@ -46,7 +46,7 @@ export default defineConfig(({ mode, command }) => ({
         origin: mode == 'wp' ? undefined : 'http://localhost:5173',
     },
     build: {
-        outDir: mode === 'wp' ? resolve(__dirname, 'wordpress/themes/WORDPRESS-THEME-NAME/') : resolve(__dirname, 'dist'),
+        outDir: mode === 'wp' ? resolve(__dirname, 'wordpress/themes/wp-env-theme/') : resolve(__dirname, 'dist'),
         emptyOutDir: false,
         rollupOptions: {
             input: mode === 'wp' ? inputsForWordPress : inputsForStatic,

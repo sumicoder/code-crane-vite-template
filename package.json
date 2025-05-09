@@ -15,7 +15,9 @@
         "export": "wp-env run cli wp db export sql/wpenv.sql",
         "import": "wp-env run cli wp db import sql/wpenv.sql",
         "destroy": "wp-env destroy",
-        "env:init": "wp-env start && wp-env run cli wp theme activate wp-env-theme && wp-env run cli wp theme delete --all && wp-env run cli wp option update timezone_string 'Asia/Tokyo' && wp-env run cli wp option update posts_per_page 1 && wp-env run cli wp option update permalink_structure /%postname%/ && wp-env run cli wp option update blog_public 0"
+        "env:init": "wp-env start && wp-env run cli wp theme activate wp-env-theme && wp-env run cli wp theme delete --all && wp-env run cli wp option update timezone_string 'Asia/Tokyo' && wp-env run cli wp option update posts_per_page 1 && wp-env run cli wp option update permalink_structure /%postname%/ && wp-env run cli wp option update blog_public 0",
+        "phpmyadmin:start": "docker run --rm --name my-phpmyadmin -p 8080:80 -e PMA_HOST=mysql --network $(docker ps --filter 'name=mysql-1' --format '{{.Names}}' | grep -v test | sed 's/-mysql-1$//')_default -d phpmyadmin/phpmyadmin",
+        "phpmyadmin:stop": "docker stop my-phpmyadmin"
     },
     "devDependencies": {
         "@wordpress/env": "^10.22.0",
